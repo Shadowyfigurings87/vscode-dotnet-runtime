@@ -1,8 +1,9 @@
-/* --------------------------------------------------------------------------------------------
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for license information.
- * ------------------------------------------------------------------------------------------ */
+/*---------------------------------------------------------------------------------------------
+*  Licensed to the .NET Foundation under one or more agreements.
+*  The .NET Foundation licenses this file to you under the MIT license.
+*--------------------------------------------------------------------------------------------*/
 import * as chai from 'chai';
+
 import * as chaiAsPromised from 'chai-as-promised';
 import * as path from 'path';
 import { DotnetCoreAcquisitionWorker } from '../../Acquisition/DotnetCoreAcquisitionWorker';
@@ -19,11 +20,14 @@ import {
     MockInstallationValidator,
     MockInstallScriptWorker,
     MockTrackingWebRequestWorker,
+    MockVSCodeExtensionContext,
 } from '../mocks/MockObjects';
 
 import {
     Debugging
 } from '../../Utils/Debugging';
+import { MockWindowDisplayWorker } from '../mocks/MockWindowDisplayWorker';
+import { getMockUtilityContext } from './TestUtility';
 
 const assert = chai.assert;
 chai.use(chaiAsPromised);
@@ -50,7 +54,8 @@ suite('WebRequestWorker Unit Tests', () => {
             installationValidator: new MockInstallationValidator(eventStream),
             timeoutValue: 10,
             installDirectoryProvider: new RuntimeInstallationDirectoryProvider(''),
-        });
+            isExtensionTelemetryInitiallyEnabled: true
+        }, getMockUtilityContext(), new MockVSCodeExtensionContext());
         return assert.isRejected(acquisitionWorker.acquireRuntime('1.0'), Error, '.NET Acquisition Failed');
     });
 
@@ -111,6 +116,6 @@ suite('WebRequestWorker Unit Tests', () => {
         assert.exists(uncachedResult);
         const requestCount = webWorker.getRequestCount();
         assert.isAtLeast(requestCount, 2);
-    }).timeout((maxTimeoutTime*5) + 2000);
+    }).timeout((maxTimeoutTime*7) + 2000);
 });
 

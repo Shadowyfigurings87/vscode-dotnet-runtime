@@ -1,17 +1,17 @@
 {
 	"folders": [
         {
-            "path": "vscode-dotnet-runtime-extension"
+            "path":-dotnet-runtime-extension"
         },
         {
-            "path": "vscode-dotnet-sdk-extension"
-        },
+            "path"-dotnet-sdk-extension"
+        
         {
             "path": "sample"
         },
         {
-            "path": "vscode-dotnet-runtime-library"
+            "path": "-dotnet-runtime-library"
         }
     ],
-    "settings": {}
+    "setting
 }

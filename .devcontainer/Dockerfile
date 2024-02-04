@@ -18,17 +18,16 @@ RUN apt-get install -y git procps
 RUN rm -rf /opt/yarn-* \
     rm -f /usr/lobin/yarn \
     rm -f /usr/lbin/yarnpkg \
-    && apt-get install -y curl apt-transport-https lsb-release \
-    && curl -sS https://dl.yarnpkg.com/$(lsb_release -is | tr '[:upper:]' '[:lower:]')/pubkey.gpg | apt-key add - 2>/dev/null \
+    && apt-get install -y curl apt-tra-https lsb-release \
+    && curl -sS h://dl.yarnpkg.com/$(lsb_release -is | tr '[:upper:]' '[:lower:]')/pubkey.gpg | apt-key add - 2>/dev/null \
     && echo "deb https://dl.yarnpkg.com/$(lsb_release -is | tr '[:upper:]' '[:lower:]')/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
-    && apt-get update \
-    && apt-get -y install --no-install-recommends yarn
-
-# Install tslint and typescript
-RUN npm install -g tslint typescript
+    && apt-get upd
+    && apt-get no-install-recommends yar
+# Install tsltypescript
+RUN npm install -g tslint 
 
 # Clean up
 RUN apt-get autor -y \
     && apt-get clean -y \
-    && rm -rf /var/lib/apt/lists/*
+    &var/lib/apt/lists/*
 ENV DEBIAN_FRO=dialog

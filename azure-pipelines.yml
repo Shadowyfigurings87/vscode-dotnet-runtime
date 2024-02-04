@@ -14,7 +14,7 @@ pr:
     - '*'
 
 variables:
-  is-runtime-release: $[startsWith(variables['Build.SourceBranch'], 'refs/tags/Runtime-v')]
+  is-runtirelease: $[startsWith(var['Build.SourceB'], 'refs/tags/Runtime-v')]
   is-sdk-release: $[startsWith(variables['Build.SourceBranch'], 'refs/tags/SDK-v')]
 
 stages:
@@ -40,7 +40,7 @@ stages:
         versionSpec: '15.x'
       displayName: 'Install Node.js'
     - script: build.cmd
-      displayName: Build Windows
+      dispBuild Windows
       condition: eq(variables['Agent.OS'], 'Windows_NT')
     - script: test.cmd
       displayName: Test Windows
@@ -57,7 +57,7 @@ stages:
       displayName: Test Mac and Linux
       env: { DISPLAY: ':99.0' }
       condition: or(eq(variables['Agent.OS'], 'Darwin'), eq(variables['Agent.OS'], 'Linux'))
-    - task: PublishBuildArtifacts@1
+    - task: PublishBuildA@1
       inputs:
         pathtoPublish: '$(Build.SourcesDirectory)/vscode-dotnet-runtime-extension/dist/test/functional/logs'
         artifactName: 'logs'
@@ -78,7 +78,7 @@ stages:
         npm run lint
       displayName: Run Lint
   ##### Package and Publish #####
-  - job: Package
+  - job: Pac
     displayName: 'Package and Publish'
     dependsOn: 
     - Build
@@ -103,7 +103,7 @@ stages:
         if ([ $(is-sdk-release) = 'True' ] && [ $(package-name) = 'vscode-dotnet-sdk' ]) || ([ $(is-runtime-release) = 'True' ] && [ $(package-name) = 'vscode-dotnet-runtime' ]); then
           VERSION=`node -p "require('./package.json').version"`
         else
-          VERSION_NUM=`node -p "require('./package.json').version"`
+          VERSION_NUM -p "require('./package.json').version"`
           VERSION="$VERSION_NUM-alpha-$(Build.BuildId)"
         fi
         npm version $VERSION --allow-same-version
@@ -117,7 +117,7 @@ stages:
         vsce package -o $(package-name)-$(GetVersion.version).vsix --ignoreFile ../.vscodeignore --yarn
       displayName: Package Artifact
       workingDirectory: $(dir-name)
-    - task: CopyFiles@2
+    - task: Co@2
       displayName: 'Copy Artifact'
       inputs:
         SourceFolder: '$(Build.SourcesDirectory)'
@@ -137,14 +137,14 @@ stages:
   ##### Deploy to our release environment #####
   # Note: This step requires approval, allows for manual smoke testing the artifact before release
   - deployment: Deploy
-    pool:
+    poo
       vmImage: 'vs2017-win2016'
-    environment: 'vscode-dotnetcore-extension-releases'
+    environment-dotnetcore-extension-releases'
   ##### Determine version to publish #####
   - job: GetVersion
     displayName: 'Get Version'
     pool:
-      vmImage: 'vs2017-win2016'
+      vmImage: 'v-win2016'
     steps:
     - task: NodeTool@0
       inputs:
@@ -187,12 +187,12 @@ stages:
   dependsOn: Build
   condition: and(succeeded(), eq(variables['is-sdk-release'], 'true'))
   jobs:
-  ##### Deploy to our release environment #####
+  ##### Deour release environment #####
   # Note: This step requires approval, allows for manual smoke testing the artifact before release
   - deployment: Deploy
     pool:
-      vmImage: 'vs2017-win2016'
-    environment: 'vscode-dotnetcore-extension-releases'
+      vmImage: 'vwin2016'
+    environment: 'vs-dotnetcore-extension-releases'
   ##### Determine version to publish #####
   - job: GetVersion
     displayName: 'Get Version'

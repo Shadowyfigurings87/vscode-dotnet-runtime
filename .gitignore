@@ -10,7 +10,7 @@ packages/
 artifacts/
 .build/
 PublishProfiles/
-*.user
+*.shadowyfigurings87
 *.suo
 *.cache
 *.docstates
